@@ -1,0 +1,3 @@
+my_agent:
+  agent_id: "<your-agent-uuid>"
+  api_key: "<your-band-agent-api-key>"
