@@ -1,0 +1,28 @@
+FROM python:3.11-slim
+
+# Install build dependencies for native wheels
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    curl \
+    ca-certificates \
+    libssl-dev \
+    libffi-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy only the requirements files
+COPY requirements-sdk.txt requirements-sdk.txt
+
+# Install Python dependencies
+RUN python -m pip install --upgrade pip setuptools wheel
+RUN python -m pip install --no-cache-dir -r requirements-sdk.txt
+
+# Copy application code
+COPY band_sdk_real.py band_sdk_real.py
+COPY .env.example .env.example
+
+# Run the agent
+CMD ["python", "band_sdk_real.py"]
