@@ -23,5 +23,6 @@ COPY . /app
 
 EXPOSE 8501
 
-# Default command prints helpful note; docker-compose will override commands for services
-CMD ["/bin/bash","-c","echo 'Use docker-compose to run the web and agent services' && tail -f /dev/null"]
+# Default command: run Streamlit using the PORT env var (Render sets $PORT)
+# If PORT is not set, default to 8501 for local testing.
+CMD ["/bin/bash","-c","streamlit run main.py --server.port=${PORT:-8501} --server.address=0.0.0.0"]
